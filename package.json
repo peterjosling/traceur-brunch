@@ -1,13 +1,19 @@
 {
   "name": "traceur-brunch",
-  "version": "0.0.0",
-  "description": "Adds Traceur ES6 transpiler support to brunch",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "1.7.0",
+  "description": "Adds Traceur ES6 transpiler support to brunch.",
+  "author": "Peter Josling <npm@peterjosling.com>",
+  "homepage": "https://github.com/peterjosling/traceur-brunch",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:peterjosling/traceur-brunch.git"
   },
-  "author": "Peter Josling",
+  "engines": {
+    "node": ">=0.10"
+  },
+  "main": "index.js",
   "dependencies": {
     "traceur": "0.0.52"
-  }
+  },
+  "keywords": ["brunch", "plugin", "brunchplugin", "traceur", "es6", "transpiler", "compiler"]
 }
