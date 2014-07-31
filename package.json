@@ -1,0 +1,13 @@
+{
+  "name": "traceur-brunch",
+  "version": "0.0.0",
+  "description": "Adds Traceur ES6 transpiler support to brunch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peter Josling",
+  "dependencies": {
+    "traceur": "0.0.52"
+  }
+}
