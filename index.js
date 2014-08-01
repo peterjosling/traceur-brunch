@@ -3,6 +3,11 @@ var traceur = require('traceur'),
 
 function TraceurCompiler(config) {
 	this.config = config
+	this.modules = false
+
+	if (typeof this.config.modules.wrapper === 'string') {
+		this.modules = this.config.modules.wrapper
+	}
 }
 
 TraceurCompiler.prototype.brunchPlugin = true;
@@ -13,7 +18,7 @@ TraceurCompiler.prototype.compile = function(data, path, callback) {
 	var es5 = traceur.compile(data, {
 		sourceMaps: this.config.sourceMaps,
 		filename: path,
-		modules: false
+		modules: this.modules
 	});
 
 	callback(null, {
