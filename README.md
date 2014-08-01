@@ -17,7 +17,8 @@ __Note:__ The entry in your `package.json` file must come before any other plugi
 ## Config
 By default all .js sources in your `app/` directory will be compiled and wrapped in the module wrapper specified in your brunch config. This path can be overridden in the plugin section of your `config.coffee`.
 
-```plugins:
+```
+plugins:
 	traceur:
 		paths: /^app/
 ```
