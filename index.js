@@ -2,16 +2,16 @@ var traceur = require('traceur'),
 	path = require('path');
 
 function TraceurCompiler(config) {
-	this.config = config
-	this.modules = false
-	this.shouldCompile = /^app/
+	this.config = config;
+	this.modules = false;
+	this.shouldCompile = /^app/;
 
 	if (typeof this.config.modules.wrapper === 'string') {
-		this.modules = this.config.modules.wrapper
+		this.modules = this.config.modules.wrapper;
 	}
 
 	if (this.config.plugins && this.config.plugins.traceur) {
-		this.shouldCompile = this.config.plugins.traceur.paths || this.shouldCompile
+		this.shouldCompile = this.config.plugins.traceur.paths || this.shouldCompile;
 	}
 }
 
@@ -22,7 +22,7 @@ TraceurCompiler.prototype.extension = 'js';
 TraceurCompiler.prototype.compile = function(data, path, callback) {
 	// Only compile from the specified paths.
 	if (!this.shouldCompile.test(path)) {
-		return callback(null, {data: data})
+		return callback(null, {data: data});
 	}
 
 	var es5 = traceur.compile(data, {
