@@ -2,16 +2,22 @@ var traceur = require('traceur'),
 	path = require('path');
 
 function TraceurCompiler(config) {
-	this.config = config
-	this.modules = false
-	this.shouldCompile = /^app/
+	this.shouldCompile = /^app/;
+	this.options = {
+		modules: false,
+		sourceMaps: config.sourceMaps
+	};
 
-	if (typeof this.config.modules.wrapper === 'string') {
-		this.modules = this.config.modules.wrapper
+	if (typeof config.modules.wrapper === 'string') {
+		this.options.modules = config.modules.wrapper;
 	}
 
-	if (this.config.plugins && this.config.plugins.traceur) {
-		this.shouldCompile = this.config.plugins.traceur.paths || this.shouldCompile
+	if (config.plugins && config.plugins.traceur) {
+		this.shouldCompile = config.plugins.traceur.paths || this.shouldCompile;
+
+		for (var i in config.plugins.traceur.options) {
+			this.options[i] = config.plugins.traceur.options[i];
+		}
 	}
 }
 
@@ -22,14 +28,12 @@ TraceurCompiler.prototype.extension = 'js';
 TraceurCompiler.prototype.compile = function(data, path, callback) {
 	// Only compile from the specified paths.
 	if (!this.shouldCompile.test(path)) {
-		return callback(null, {data: data})
+		return callback(null, {data: data});
 	}
 
-	var es5 = traceur.compile(data, {
-		sourceMaps: this.config.sourceMaps,
-		filename: path,
-		modules: this.modules
-	});
+	this.options.filename = path;
+
+	var es5 = traceur.compile(data, this.options);
 
 	callback(null, {
 		data: es5.js,
