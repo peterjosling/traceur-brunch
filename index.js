@@ -35,6 +35,11 @@ TraceurCompiler.prototype.compile = function(data, path, callback) {
 
 	var es5 = traceur.compile(data, this.options);
 
+	if (es5.errors && es5.errors.length > 0) {
+		callback(es5.errors);
+		return;
+	}
+
 	callback(null, {
 		data: es5.js,
 		map: es5.generatedSourceMap
