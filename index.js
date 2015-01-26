@@ -1,11 +1,11 @@
-var traceur = require('traceur'),
+var traceurAPI = require('traceur/src/node/api.js'),
 	path = require('path');
 
 function TraceurCompiler(config) {
 	this.shouldCompile = /^app/;
 	this.options = {
 		modules: false,
-		sourceMaps: config.sourceMaps
+		sourceMaps: false // let brunch handle the sourcemaps
 	};
 
 	if (typeof config.modules.wrapper === 'string') {
@@ -19,6 +19,8 @@ function TraceurCompiler(config) {
 			this.options[i] = config.plugins.traceur.options[i];
 		}
 	}
+
+	this.compiler = new traceurAPI.NodeCompiler(this.options);
 }
 
 TraceurCompiler.prototype.brunchPlugin = true;
@@ -31,18 +33,15 @@ TraceurCompiler.prototype.compile = function(data, path, callback) {
 		return callback(null, {data: data});
 	}
 
-	this.options.filename = path;
-
-	var es5 = traceur.compile(data, this.options);
-
-	if (es5.errors && es5.errors.length > 0) {
-		callback(es5.errors);
+	try {
+		var es5 = this.compiler.compile(data, false, false);
+	} catch(err) {
+		callback(err);
 		return;
 	}
 
 	callback(null, {
-		data: es5.js,
-		map: es5.generatedSourceMap
+		data: es5 + '\n'
 	});
 };
 
